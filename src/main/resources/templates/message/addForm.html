@@ -20,22 +20,25 @@
     <h4 class="mb-3">상품 입력</h4>
 
     <!--th:action은 URI 미지정 시 현재 URI로 자동 할당됨 ==> 여기서는 URI 생략해도 상관 없음-->
+    <!--th:object를 넣어 "${product.name}" ==> "*{name}"-->
     <form action="product.html"
-          th:action="@{/basic/products/add}"
+          th:action="@{/message/products/add}"
+          th:object="${product}"
           method="post">
         <div>
             <label for="name">상품명</label>
-            <input type="text" id="name" name="name"
+            <!-- th:field: id, name, value 자동 생성 -->
+            <input type="text" th:field="*{name}"
                    class="form-control" placeholder="이름을 입력하세요">
         </div>
         <div>
             <label for="price">가격</label>
-            <input type="text" id="price" name="price" class="form-control"
-                   placeholder="가격을 입력하세요">
+            <input type="text" th:field="*{price}"
+                   class="form-control" placeholder="가격을 입력하세요">
         </div>
         <div>
             <label for="quantity">수량</label>
-            <input type="text" id="quantity" name="quantity"
+            <input type="text" th:field="*{quantity}"
                    class="form-control" placeholder="수량을 입력하세요">
         </div>
 
@@ -48,7 +51,7 @@
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
                         onclick="location.href='products.html'"
-                        th:onclick="|location.href='@{/basic/products}'|"
+                        th:onclick="|location.href='@{/message/products}'|"
                         type="button">취소</button>
             </div>
         </div>
