@@ -40,6 +40,10 @@ public class ProductRepository {
         product.setName(newProduct.getName());
         product.setPrice(newProduct.getPrice());
         product.setQuantity(newProduct.getQuantity());
+        product.setProductType(newProduct.getProductType());
+        product.setOpen(newProduct.getOpen());
+        product.setDeliveryCode(newProduct.getDeliveryCode());
+        product.setRegions(newProduct.getRegions());
     }
 
     //상품 전체 삭제
