@@ -1,20 +1,25 @@
 package springMVC.productservice.web.controller;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import springMVC.productservice.domain.DeliveryCode;
 import springMVC.productservice.domain.Product;
 import springMVC.productservice.domain.ProductRepository;
+import springMVC.productservice.domain.ProductType;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 //상품 목록 컨트롤러
+@Slf4j
 @Controller
-@RequestMapping("/basic/products")
+@RequestMapping("/form/products")
 @RequiredArgsConstructor
 public class BasicProductController {
 
@@ -25,7 +30,7 @@ public class BasicProductController {
     public String products(Model model) {
         List<Product> products = productRepository.findAll();
         model.addAttribute("products", products);
-        return "basic/products";
+        return "form/products";
     }
 
     //상품 상세 정보
@@ -33,83 +38,27 @@ public class BasicProductController {
     public String product(@PathVariable long id, Model model) {
         Product product = productRepository.findById(id);
         model.addAttribute("product", product);
-        return "basic/product";
+        return "form/product";
     }
 
-    //상품 등록 폼 출력
+    //상품 등록 - 입력 폼 처리
     @GetMapping("/add")
-    public String addForm() {
-        return "basic/addForm";
-    }
-
-    //상품 등록 - @RequestParam
-    //@PostMapping("/add")
-    public String addProduct1(@RequestParam String name,
-                               @RequestParam int price,
-                               @RequestParam Integer quantity,
-                               Model model) {
-        Product product = new Product();
-        product.setName(name);
-        product.setPrice(price);
-        product.setQuantity(quantity);
-
-        productRepository.save(product);
-        model.addAttribute("product", product);
-
-        return "basic/product";
-    }
-
-    //상품 등록 - @ModelAttribute : 객체 생성 및 addAttribute 수행
-    //@PostMapping("/add")
-    public String addProduct2(@ModelAttribute("product") Product product) {
-
-        productRepository.save(product);
-
-        return "basic/product";
-    }
-
-    //상품 등록 - @ModelAttribute : Model 미지정시, 클래스형의 앞부분을 소문자로 바꾼 Model에 addAttribute 수행
-    //HelloData product면 addAttribute('helloData', product) 수행
-    //@PostMapping("/add")
-    public String addProduct3(@ModelAttribute Product product) {
-
-        productRepository.save(product);
-
-        return "basic/product";
-    }
-
-    //상품 등록 - @ModelAttribute 생략
-    //String, int와 같은 형은 @RequestParam이, 사용자 정의 클래스 형인 경우엔 @ModelAttribute 자동 수행
-    //@ModelAttribute 자동 수행
-    //@PostMapping("/add")
-    public String addProduct4(Product product) {
-
-        productRepository.save(product);
-
-        return "basic/product";
-    }
-
-    /*
-    addProduct1~4 : 상품 추가 후, 새로고침 시 상품이 무한히 저장됨
-        ==> 등록 후 상태는 Post/add. 새로고침 시 마지막에 서버에 전송한 데이터를 다시 전송된다.
-            즉, Post/add가 서버로 다시 전송되어 상품이 다시 저장된다
-            ==> redirect를 이용하여 Get을 보내도록 한다.
-     */
-    //상품 추가 : redirect
-    //@PostMapping("/add")
-    public String addProduct5(Product product) {
-        productRepository.save(product);
-        return "redirect:/basic/products/" + product.getId();
+    public String addForm(Model model) {
+        //입력할 상품 등록 폼 전달
+        model.addAttribute("product", new Product());
+        return "form/addForm";
     }
 
     //상품 추가 : RedirectAttributes : URL 인코딩 수행
     @PostMapping("/add")
-    public String addProduct6(Product product, RedirectAttributes redirectAttributes) {
+    public String addProduct(Product product, RedirectAttributes redirectAttributes) {
+        log.info("product.open={}", product.getOpen());
+
         Product savedProduct = productRepository.save(product);
 
         redirectAttributes.addAttribute("id", savedProduct.getId());
         redirectAttributes.addAttribute("status", true);
-        return "redirect:/basic/products/{id}";
+        return "redirect:/form/products/{id}";
     }
 
 
@@ -118,20 +67,38 @@ public class BasicProductController {
     public String editForm(@PathVariable Long id, Model model) {
         Product product = productRepository.findById(id);
         model.addAttribute("product", product);
-        return "basic/editForm";
+        return "form/editForm";
     }
 
     //상품 수정 - @PathVariable : @Mapping된 URI 내 'id'에 할당된 값을 갖는다
     @PostMapping("/{id}/edit")
     public String editProduct(@PathVariable Long id, @ModelAttribute Product product) {
         productRepository.update(id, product);
-        return "redirect:/basic/products/{id}";
+        return "redirect:/form/products/{id}";
     }
 
-    //테스트용 데이터 추가
-    @PostConstruct
-    public void testInit() {
-        productRepository.save(new Product("A", 10000, 10));
-        productRepository.save(new Product("B", 20000, 20));
+    @ModelAttribute("regions") //컨트롤러 호출 시 'regions'에 자동 addAttribute 수행
+    public Map<String, String> regions() {
+        LinkedHashMap<String, String> regions = new LinkedHashMap<>();
+        regions.put("SEOUL", "서울");
+        regions.put("JEJU", "제주");
+        regions.put("BUSAN", "부산");
+        regions.put("gyeonggi", "경기");
+
+        return regions;
+    }
+
+    @ModelAttribute("productTypes")
+    public ProductType[] productTypes() {
+        return ProductType.values();
+    }
+
+    @ModelAttribute("deliveryCodes")
+    public List<DeliveryCode> deliveryCode() {
+        ArrayList<DeliveryCode> deliveryCodes = new ArrayList<>();
+        deliveryCodes.add(new DeliveryCode("FAST", "빠른 배송"));
+        deliveryCodes.add(new DeliveryCode("NORMAL", "일반 배송"));
+        deliveryCodes.add(new DeliveryCode("SLOW", "느린 배송"));
+        return deliveryCodes;
     }
 }
