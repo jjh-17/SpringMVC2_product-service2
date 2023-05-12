@@ -16,7 +16,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-//메시지 컨트롤러
+//메시지, 국제화
+//메시지 사용시 html에서 반복적으로 사용되는 값들을 한번에 관리 할 수 있음
+//크롬 언어 설정에 따라 한국어/영어 버전을 Show
 @Slf4j
 @Controller
 @RequestMapping("/message/products")
