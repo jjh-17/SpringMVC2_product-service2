@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}"
+          rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.updateProduct}">상품 수정</h2>
+    </div>
+    <form action="product.html"
+          th:action
+          th:object="${product}"
+          method="post">
+        <div>
+            <label for="id" th:text="#{label.product.id}">상품 ID</label>
+            <input type="text" class="form-control" th:field="*{id}" readonly>
+        </div>
+        <div>
+            <label for="name" th:text="#{label.product.name}">상품명</label>
+            <input type="text" class="form-control" th:field="*{name}">
+        </div>
+        <div>
+            <label for="price" th:text="#{label.product.price}">가격</label>
+            <input type="text" class="form-control" th:field="*{price}">
+        </div>
+        <div>
+            <label for="quantity" th:text="#{label.product.quantity}">수량</label>
+            <input type="text" class="form-control" th:field="*{quantity}">
+        </div>
+
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" th:text="#{button.save}"
+                        type="submit">저장</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='product.html'" th:text="#{button.cancel}"
+                        th:onclick="|location.href='@{/message/products/{productId}(productId=${product.id})}'|"
+                        type="button">취소</button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
+</body>
+</html>
