@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}"
+          rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .global-error {
+            border-color: #ff0000;
+            color: #ff0000;
+        }
+        .field-error {
+            border-color: #ff3545;
+            color: #ff3545;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.updateProduct}">상품 수정</h2>
+    </div>
+    <form action="product.html"
+          th:action
+          th:object="${product}"
+          method="post">
+
+        <!--'?.'로 errors가 null이더라도 NullPointException 대신 null 반환 -->
+        <div th:if="${errors?.containsKey('globalError')}">
+            <p class="global-error" th:text="${errors['globalError']}">전체 오류 메시지</p>
+        </div>
+
+        <div>
+            <label for="id" th:text="#{label.product.id}">상품 ID</label>
+            <input type="text" class="form-control" th:field="*{id}" readonly>
+        </div>
+        <div>
+            <label for="name" th:text="#{label.product.name}">상품명</label>
+            <input type="text" class="form-control" th:field="*{name}"
+                   th:class="${errors?.containsKey('name')} ? 'form-control field-error' : 'form-control'">
+            <div class="field-error" th:if="${errors?.containsKey('name')}"
+                 th:text="${errors['name']}">상품명 오류</div>
+        </div>
+        <div>
+            <label for="price" th:text="#{label.product.price}">가격</label>
+            <input type="text" class="form-control" th:field="*{price}"
+                   th:class="${errors?.containsKey('price')} ? 'form-control field-error' : 'form-control'">
+            <div class="field-error" th:if="${errors?.containsKey('price')}"
+                 th:text="${errors['price']}">가격 오류</div>
+        </div>
+        <div>
+            <label for="quantity" th:text="#{label.product.quantity}">수량</label>
+            <input type="text" class="form-control" th:field="*{quantity}"
+                   th:class="${errors?.containsKey('quantity')} ? 'form-control field-error' : 'form-control'">
+            <div class="field-error" th:if="${errors?.containsKey('quantity')}"
+                 th:text="${errors['quantity']}">수량 오류</div>
+        </div>
+
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" th:text="#{button.save}"
+                        type="submit">저장</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='product.html'" th:text="#{button.cancel}"
+                        th:onclick="|location.href='@{/validation/v1/products/{productId}(productId=${product.id})}'|"
+                        type="button">취소</button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
+</body>
+</html>
