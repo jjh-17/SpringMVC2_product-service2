@@ -8,10 +8,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springMVC.productservice.domain.Product;
 import springMVC.productservice.domain.ProductRepository;
+import springMVC.productservice.web.validator.ProductValidator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +38,15 @@ import java.util.List;
 public class ValidationProductController2 {
 
     private final ProductRepository productRepository;
+    private final ProductValidator productValidator; //Product 검증
+
+    //사용자 설정 validator를 WebDataBinder에 등록
+    @InitBinder
+    public void init(WebDataBinder dataBinder) {
+        log.info("init binder {}", dataBinder);
+        dataBinder.addValidators(productValidator);
+    }
+
 
     //모든 상품 리스트
     @GetMapping
@@ -205,19 +218,22 @@ public class ValidationProductController2 {
     -errorArgs: 오류 메시지의 {} 치환을 위한 값
     -defaultMessage: 오류 메시지를 찾을 수 없을 때 기본 메시지
      */
-    @PostMapping("/add")
+    //@PostMapping("/add")
     public String addProductV4(@ModelAttribute Product product, BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
-        //검증 로직 - 단일 필드
-        if (!StringUtils.hasText(product.getName())) {
-            bindingResult.rejectValue("name", "required");
-        }
+//        //검증 로직 - 단일 필드
+//        if (!StringUtils.hasText(product.getName())) {
+//            bindingResult.rejectValue("name", "required");
+//        }
+        //Empty거나 공백일 때 대체 가능
+        ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "name", "required");
+
         if (product.getPrice() == null || product.getPrice() < 1000 || product.getPrice() > 1000000) {
             bindingResult.rejectValue("price", "range", new Object[]{1000, 1000000}, null);
         }
         if(product.getQuantity() == null || product.getQuantity() < 0 || product.getQuantity() > 9999){
-            bindingResult.rejectValue("quantity", "max");
+            bindingResult.rejectValue("quantity", "max", new Object[]{9999}, null);
         }
 
         //검증 로직 - 복합 필드
@@ -228,6 +244,46 @@ public class ValidationProductController2 {
                 bindingResult.reject("totalPriceMin", new Object[]{10000, totalPrice}, null);
             }
         }
+
+        //검증 실패 시 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {}", bindingResult);
+            return "validation/v2/addForm";
+        }
+
+
+        Product savedProduct = productRepository.save(product);
+        redirectAttributes.addAttribute("id", savedProduct.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/products/{id}";
+    }
+
+    //검증을 다른 클래스로 분리
+    //@PostMapping("/add")
+    public String addProductV5(@ModelAttribute Product product, BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
+
+        //검증 단순화
+        productValidator.validate(product, bindingResult);
+
+        //검증 실패 시 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {}", bindingResult);
+            return "validation/v2/addForm";
+        }
+
+
+        Product savedProduct = productRepository.save(product);
+        redirectAttributes.addAttribute("id", savedProduct.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/products/{id}";
+    }
+
+    //WebDataBinder를 이용한 사용자 설정 validator 사용
+    //@Validated: 대상에 대한 검증기를 실행하라 ==> 검증 클래스의 supports() 메서드를 이용하여 적합한 검증기를 찾아서 실행
+    @PostMapping("/add")
+    public String addProductV6(@Validated @ModelAttribute Product product, BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
 
         //검증 실패 시 다시 입력 폼으로
         if (bindingResult.hasErrors()) {
