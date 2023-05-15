@@ -6,10 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import springMVC.productservice.domain.DeliveryCode;
-import springMVC.productservice.domain.Product;
-import springMVC.productservice.domain.ProductRepository;
-import springMVC.productservice.domain.ProductType;
+import springMVC.productservice.domain.product.DeliveryCode;
+import springMVC.productservice.domain.product.Product;
+import springMVC.productservice.domain.product.ProductRepository;
+import springMVC.productservice.domain.product.ProductType;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
