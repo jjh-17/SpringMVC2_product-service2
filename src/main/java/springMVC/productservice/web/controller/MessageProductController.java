@@ -6,15 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import springMVC.productservice.domain.DeliveryCode;
-import springMVC.productservice.domain.Product;
-import springMVC.productservice.domain.ProductRepository;
-import springMVC.productservice.domain.ProductType;
+import springMVC.productservice.domain.product.Product;
+import springMVC.productservice.domain.product.ProductRepository;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 //메시지, 국제화
 //메시지 사용시 html에서 반복적으로 사용되는 값들을 한번에 관리 할 수 있음
