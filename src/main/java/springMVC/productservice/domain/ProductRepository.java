@@ -12,6 +12,7 @@ public class ProductRepository {
 
     //static: 메모리 static 영역에 적재 ==> 공통적으로 사용 가능
     private static final Map<Long, Product> store = new HashMap<>();
+    private static final Map<Long, Product2> store2 = new HashMap<>();
     private static long sequence = 0L;
 
 
