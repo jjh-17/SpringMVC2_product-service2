@@ -3,10 +3,10 @@ package springMVC.productservice;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import springMVC.productservice.domain.Product;
-import springMVC.productservice.domain.Product2;
-import springMVC.productservice.domain.ProductRepository;
-import springMVC.productservice.domain.ProductRepository2;
+import springMVC.productservice.domain.product.Product;
+import springMVC.productservice.domain.product.Product2;
+import springMVC.productservice.domain.product.ProductRepository;
+import springMVC.productservice.domain.product.ProductRepository2;
 
 @Component
 @RequiredArgsConstructor
