@@ -1,8 +1,6 @@
 package springMVC.productservice.domain;
 
-
 import lombok.Data;
-
 import java.util.List;
 
 @Data
@@ -20,7 +18,6 @@ public class Product {
     private ProductType productType; //상품 종류
     private String deliveryCode; //배송 방식
 
-    //메시지, 국제화
 
     public Product() {
 
