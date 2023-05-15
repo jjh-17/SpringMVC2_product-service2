@@ -5,7 +5,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.Test;
-import springMVC.productservice.domain.Product2;
+import springMVC.productservice.domain.product.Product2;
 
 import java.util.Set;
 
