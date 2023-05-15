@@ -308,34 +308,11 @@ public class ValidationProductController2 {
 
     //상품 수정 - @PathVariable : @Mapping된 URI 내 'id'에 할당된 값을 갖는다
     @PostMapping("/{id}/edit")
-    public String editProduct(@PathVariable Long id, @ModelAttribute Product product, Model model) {
-        //검증 오류 결과 보관
-        HashMap<String, String> errors = new HashMap<>();
-
-        //검증 로직 - 단일 필드
-        if (!StringUtils.hasText(product.getName())) {
-            errors.put("name", "상품 이름은 필수입니다.");
-        }
-        if (product.getPrice() == null || product.getPrice() < 1000 || product.getPrice() > 1000000) {
-            errors.put("price", "가격은 1000원 이상 100만원 이하까지 허용됩니다.");
-        }
-        if(product.getQuantity() == null || product.getQuantity() < 0 || product.getQuantity() > 9999){
-            errors.put("quantity", "수량은 최대 9,999까지 허용됩니다.");
-        }
-
-        //검증 로직 - 복합 필드
-        if(product.getPrice() != null && product.getQuantity() != null){
-            int totalPrice = product.getPrice() * product.getQuantity();
-
-            if (totalPrice < 10000) {
-                errors.put("globalError", "총 금액은 10,000원 이상이어야 합니다. 현재 값 = " + totalPrice);
-            }
-        }
-
+    public String editProduct(@PathVariable Long id, @Validated @ModelAttribute Product product,
+                              BindingResult bindingResult) {
         //검증 실패 시 다시 입력 폼으로
-        if (!errors.isEmpty()) {
-            log.info("errors = {}", errors);
-            model.addAttribute("errors", errors);
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {}", bindingResult);
             return "validation/v2/editForm";
         }
 
