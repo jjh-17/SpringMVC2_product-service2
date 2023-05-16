@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import springMVC.productservice.domain.product.Product;
 import springMVC.productservice.domain.product.Product2;
-import springMVC.productservice.domain.product.ProductRepository;
-import springMVC.productservice.domain.product.ProductRepository2;
+import springMVC.productservice.domain.repository.ProductRepository;
+import springMVC.productservice.domain.repository.ProductRepository2;
 
 @Component
 @RequiredArgsConstructor
