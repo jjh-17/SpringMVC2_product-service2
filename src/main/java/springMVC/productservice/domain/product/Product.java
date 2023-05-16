@@ -1,4 +1,4 @@
-package springMVC.productservice.domain;
+package springMVC.productservice.domain.product;
 
 import lombok.Data;
 import java.util.List;
