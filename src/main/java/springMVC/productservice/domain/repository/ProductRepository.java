@@ -1,6 +1,8 @@
-package springMVC.productservice.domain;
+package springMVC.productservice.domain.repository;
 
 import org.springframework.stereotype.Repository;
+import springMVC.productservice.domain.product.Product;
+import springMVC.productservice.domain.product.Product2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
