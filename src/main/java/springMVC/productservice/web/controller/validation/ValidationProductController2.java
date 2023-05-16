@@ -1,4 +1,4 @@
-package springMVC.productservice.web.controller;
+package springMVC.productservice.web.controller.validation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,11 +13,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import springMVC.productservice.domain.Product;
-import springMVC.productservice.domain.ProductRepository;
+import springMVC.productservice.domain.product.Product;
+import springMVC.productservice.domain.repository.ProductRepository;
 import springMVC.productservice.web.validator.ProductValidator;
 
-import java.util.HashMap;
 import java.util.List;
 
 /*
