@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import springMVC.productservice.domain.Product;
+import springMVC.productservice.domain.product.Product;
 
 //검증 로직을 별도로 분리
 @Component
