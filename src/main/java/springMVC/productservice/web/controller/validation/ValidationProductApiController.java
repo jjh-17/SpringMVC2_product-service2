@@ -1,19 +1,10 @@
-package springMVC.productservice.web.controller;
+package springMVC.productservice.web.controller.validation;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import springMVC.productservice.domain.Product;
-import springMVC.productservice.domain.ProductRepository;
 import springMVC.productservice.web.validator.ProductSaveForm;
-import springMVC.productservice.web.validator.ProductUpdateForm;
-
-import java.util.List;
 
 /*
 [BeanValidation - HTTP 메시지 컨버터]
