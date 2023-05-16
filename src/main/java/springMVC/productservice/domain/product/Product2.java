@@ -1,13 +1,10 @@
-package springMVC.productservice.domain;
+package springMVC.productservice.domain.product;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
-import org.hibernate.validator.constraints.ScriptAssert;
-
-import java.util.List;
 
 @Data
 public class Product2 {
