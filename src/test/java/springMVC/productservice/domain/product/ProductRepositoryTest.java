@@ -3,6 +3,7 @@ package springMVC.productservice.domain.product;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import springMVC.productservice.domain.repository.ProductRepository;
 
 import java.util.List;
 
