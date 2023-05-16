@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springMVC.productservice.domain.product.Product;
-import springMVC.productservice.domain.product.ProductRepository;
+import springMVC.productservice.domain.repository.ProductRepository;
 
 import java.util.List;
 
