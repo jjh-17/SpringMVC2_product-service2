@@ -12,7 +12,6 @@ import springMVC.productservice.domain.product.Product;
 @Slf4j
 public class ProductValidator implements Validator {
 
-
     //validator 지원 여부 확인
     @Override
     public boolean supports(Class<?> clazz) {
@@ -24,7 +23,6 @@ public class ProductValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Product product = (Product) target;
-
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required");
 
         if (product.getPrice() == null || product.getPrice() < 1000 || product.getPrice() > 1000000) {

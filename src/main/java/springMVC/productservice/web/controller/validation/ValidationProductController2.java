@@ -46,7 +46,6 @@ public class ValidationProductController2 {
         dataBinder.addValidators(productValidator);
     }
 
-
     //모든 상품 리스트
     @GetMapping
     public String products(Model model) {
@@ -73,7 +72,7 @@ public class ValidationProductController2 {
 
     //BindingResult : @ModelAttribute Product product 바로 다음에 와야 함
     //                      ==> product의 바인딩 결과를 담기 위해서
-    //@PostMapping("/add")
+//    @PostMapping("/add")
     public String addProductV1(@ModelAttribute Product product, BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
@@ -96,7 +95,8 @@ public class ValidationProductController2 {
             int totalPrice = product.getPrice() * product.getQuantity();
 
             if (totalPrice < 10000) {
-                bindingResult.addError(new ObjectError("product", "총 금액은 10,000원 이상이어야 합니다. 현재 값 = " + totalPrice));
+                bindingResult.addError(new ObjectError("product",
+                        "총 금액은 10,000원 이상이어야 합니다. 현재 값 = " + totalPrice));
             }
         }
 
@@ -123,22 +123,25 @@ public class ValidationProductController2 {
     -arguments: 메시지에서 사용하는 인자
     -defaultMessage: default 오류 메시지
      */
-    //@PostMapping("/add")
+//    @PostMapping("/add")
     public String addProductV2(@ModelAttribute Product product, BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
         //검증 로직 - 단일 필드
         if (!StringUtils.hasText(product.getName())) {
             bindingResult.addError(new FieldError(
-                    "product", "name", product.getName(), false, null, null, "상품 이름은 필수입니다."));
+                    "product", "name", product.getName(), false, null, null,
+                    "상품 이름은 필수입니다."));
         }
         if (product.getPrice() == null || product.getPrice() < 1000 || product.getPrice() > 1000000) {
             bindingResult.addError(new FieldError(
-                    "product", "price", product.getPrice(), false, null, null, "가격은 1000원 이상 100만원 이하까지 허용됩니다."));
+                    "product", "price", product.getPrice(), false, null, null,
+                    "가격은 1000원 이상 100만원 이하까지 허용됩니다."));
         }
         if(product.getQuantity() == null || product.getQuantity() < 0 || product.getQuantity() > 9999){
             bindingResult.addError(new FieldError(
-                    "product", "quantity", product.getQuantity(), false, null, null, "수량은 최대 9,999까지 허용됩니다."));
+                    "product", "quantity", product.getQuantity(), false, null, null,
+                    "수량은 최대 9,999까지 허용됩니다."));
         }
 
         //검증 로직 - 복합 필드
@@ -146,7 +149,8 @@ public class ValidationProductController2 {
             int totalPrice = product.getPrice() * product.getQuantity();
 
             if (totalPrice < 10000) {
-                bindingResult.addError(new ObjectError("product", null, null, "총 금액은 10,000원 이상이어야 합니다. 현재 값 = " + totalPrice));
+                bindingResult.addError(new ObjectError("product", null, null,
+                        "총 금액은 10,000원 이상이어야 합니다. 현재 값 = " + totalPrice));
             }
         }
 
@@ -156,7 +160,6 @@ public class ValidationProductController2 {
             return "validation/v2/addForm";
         }
 
-
         Product savedProduct = productRepository.save(product);
         redirectAttributes.addAttribute("id", savedProduct.getId());
         redirectAttributes.addAttribute("status", true);
@@ -164,7 +167,7 @@ public class ValidationProductController2 {
     }
 
     //메시지 설정 추가
-    //@PostMapping("/add")
+//    @PostMapping("/add")
     public String addProductV3(@ModelAttribute Product product, BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
@@ -217,11 +220,11 @@ public class ValidationProductController2 {
     -errorArgs: 오류 메시지의 {} 치환을 위한 값
     -defaultMessage: 오류 메시지를 찾을 수 없을 때 기본 메시지
      */
-    //@PostMapping("/add")
+//    @PostMapping("/add")
     public String addProductV4(@ModelAttribute Product product, BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
-//        //검증 로직 - 단일 필드
+        //검증 로직 - 단일 필드
 //        if (!StringUtils.hasText(product.getName())) {
 //            bindingResult.rejectValue("name", "required");
 //        }
@@ -229,10 +232,12 @@ public class ValidationProductController2 {
         ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "name", "required");
 
         if (product.getPrice() == null || product.getPrice() < 1000 || product.getPrice() > 1000000) {
-            bindingResult.rejectValue("price", "range", new Object[]{1000, 1000000}, null);
+            bindingResult.rejectValue("price", "range",
+                    new Object[]{1000, 1000000}, null);
         }
         if(product.getQuantity() == null || product.getQuantity() < 0 || product.getQuantity() > 9999){
-            bindingResult.rejectValue("quantity", "max", new Object[]{9999}, null);
+            bindingResult.rejectValue("quantity", "max",
+                    new Object[]{9999}, null);
         }
 
         //검증 로직 - 복합 필드
@@ -258,7 +263,7 @@ public class ValidationProductController2 {
     }
 
     //검증을 다른 클래스로 분리
-    //@PostMapping("/add")
+    @PostMapping("/add")
     public String addProductV5(@ModelAttribute Product product, BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
@@ -280,7 +285,7 @@ public class ValidationProductController2 {
 
     //WebDataBinder를 이용한 사용자 설정 validator 사용
     //@Validated: 대상에 대한 검증기를 실행하라 ==> 검증 클래스의 supports() 메서드를 이용하여 적합한 검증기를 찾아서 실행
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String addProductV6(@Validated @ModelAttribute Product product, BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 

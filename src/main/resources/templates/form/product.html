@@ -47,8 +47,9 @@
     <div>판매 여부</div>
     <div>
         <div class="form-check">
-            <input type="checkbox" th:field="${product.open}" class="form-check-input" disabled>
             <label for="open" class="form-check-label">판매 오픈</label>
+            <input id="open" type="checkbox" th:field="${product.open}"
+                   class="form-check-input" disabled>
         </div>
     </div>
     <!-- 멀티 체크박스 - 등록 지역 -->

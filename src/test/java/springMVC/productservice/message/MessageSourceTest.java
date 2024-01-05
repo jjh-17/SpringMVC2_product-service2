@@ -1,14 +1,11 @@
 package springMVC.productservice.message;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
-
 import java.util.Locale;
-
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -21,9 +18,6 @@ public class MessageSourceTest {
     @Test
     public void helloMessage() throws Exception {
         //given
-        //code: hello, args: null, locale: null
-        //locale이 null ==> 시스템 기본 locale(locale.getDefault())로 저회 시도
-        //             ==> 조회 실패 시 messages.properties 조회
         String simpleMessage = messageSource.getMessage("hello", null, null);
 
         //when
@@ -31,7 +25,6 @@ public class MessageSourceTest {
         //then
         assertThat(simpleMessage).isEqualTo("안녕");
         System.out.println("메시지가 존재한다.");
-
     }
 
     //메시지가 없는 경우
@@ -70,7 +63,7 @@ public class MessageSourceTest {
         assertThat(message).isEqualTo("안녕 Spring");
 
         //then
-        System.out.println("메시지 매개변수 사용 성공");
+        System.out.println("메시지 매개변수 사용 성공 : " + message);
     }
 
     //국제화 파일 선택

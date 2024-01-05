@@ -25,6 +25,34 @@ public class BasicProductController {
 
     private final ProductRepository productRepository;
 
+
+//  편의 메서드
+//  컨트롤러 호출 시 'regions'에 자동 addAttribute 수행
+    @ModelAttribute("regions")
+    public Map<String, String> regions() {
+        LinkedHashMap<String, String> regions = new LinkedHashMap<>();
+        regions.put("SEOUL", "서울");
+        regions.put("JEJU", "제주");
+        regions.put("BUSAN", "부산");
+        regions.put("gyeonggi", "경기");
+
+        return regions;
+    }
+
+    @ModelAttribute("productTypes")
+    public ProductType[] productTypes() {
+        return ProductType.values();
+    }
+
+    @ModelAttribute("deliveryCodes")
+    public List<DeliveryCode> deliveryCode() {
+        ArrayList<DeliveryCode> deliveryCodes = new ArrayList<>();
+        deliveryCodes.add(new DeliveryCode("FAST", "빠른 배송"));
+        deliveryCodes.add(new DeliveryCode("NORMAL", "일반 배송"));
+        deliveryCodes.add(new DeliveryCode("SLOW", "느린 배송"));
+        return deliveryCodes;
+    }
+
     //모든 상품 리스트
     @GetMapping
     public String products(Model model) {
@@ -61,7 +89,6 @@ public class BasicProductController {
         return "redirect:/form/products/{id}";
     }
 
-
     //상품 수정 폼
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable Long id, Model model) {
@@ -75,30 +102,5 @@ public class BasicProductController {
     public String editProduct(@PathVariable Long id, @ModelAttribute Product product) {
         productRepository.update(id, product);
         return "redirect:/form/products/{id}";
-    }
-
-    @ModelAttribute("regions") //컨트롤러 호출 시 'regions'에 자동 addAttribute 수행
-    public Map<String, String> regions() {
-        LinkedHashMap<String, String> regions = new LinkedHashMap<>();
-        regions.put("SEOUL", "서울");
-        regions.put("JEJU", "제주");
-        regions.put("BUSAN", "부산");
-        regions.put("gyeonggi", "경기");
-
-        return regions;
-    }
-
-    @ModelAttribute("productTypes")
-    public ProductType[] productTypes() {
-        return ProductType.values();
-    }
-
-    @ModelAttribute("deliveryCodes")
-    public List<DeliveryCode> deliveryCode() {
-        ArrayList<DeliveryCode> deliveryCodes = new ArrayList<>();
-        deliveryCodes.add(new DeliveryCode("FAST", "빠른 배송"));
-        deliveryCodes.add(new DeliveryCode("NORMAL", "일반 배송"));
-        deliveryCodes.add(new DeliveryCode("SLOW", "느린 배송"));
-        return deliveryCodes;
     }
 }

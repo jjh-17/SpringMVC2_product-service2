@@ -36,7 +36,7 @@
 
         <div>
             <label for="name" th:text="#{label.product.name}">상품명</label>
-            <input type="text" th:field="*{name}" th:errorclass="field-error" class = "form-control"
+            <input id="name" type="text" th:field="*{name}" th:errorclass="field-error" class = "form-control"
                    placeholder="이름을 입력하세요">
 
             <!--th:errors ==> 해당 필드에 오류가 있는 경우 태그 출력 ==> th:if 편의 버전-->
@@ -44,13 +44,13 @@
         </div>
         <div>
             <label for="price" th:text="#{label.product.price}">가격</label>
-            <input type="text" th:field="*{price}" th:errorclass="field-error" class = "form-control"
+            <input id="price" type="text" th:field="*{price}" th:errorclass="field-error" class = "form-control"
                    placeholder="가격을 입력하세요">
             <div class="field-error" th:errors="*{price}">가격 오류</div>
         </div>
         <div>
             <label for="quantity" th:text="#{label.product.quantity}">수량</label>
-            <input type="text" th:field="*{quantity}" th:errorclass="field-error" class = "form-control"
+            <input id="quantity" type="text" th:field="*{quantity}" th:errorclass="field-error" class = "form-control"
                    placeholder="수량을 입력하세요">
             <div class="field-error" th:errors="*{quantity}">수량 오류</div>
 

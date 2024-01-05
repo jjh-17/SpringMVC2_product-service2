@@ -37,25 +37,25 @@
 
         <div>
             <label for="id" th:text="#{label.product.id}">상품 ID</label>
-            <input type="text" class="form-control" th:field="*{id}" readonly>
+            <input id="id" type="text" class="form-control" th:field="*{id}" readonly>
         </div>
         <div>
             <label for="name" th:text="#{label.product.name}">상품명</label>
-            <input type="text" class="form-control" th:field="*{name}"
+            <input id="name" type="text" class="form-control" th:field="*{name}"
                    th:class="${errors?.containsKey('name')} ? 'form-control field-error' : 'form-control'">
             <div class="field-error" th:if="${errors?.containsKey('name')}"
                  th:text="${errors['name']}">상품명 오류</div>
         </div>
         <div>
             <label for="price" th:text="#{label.product.price}">가격</label>
-            <input type="text" class="form-control" th:field="*{price}"
+            <input id="price" type="text" class="form-control" th:field="*{price}"
                    th:class="${errors?.containsKey('price')} ? 'form-control field-error' : 'form-control'">
             <div class="field-error" th:if="${errors?.containsKey('price')}"
                  th:text="${errors['price']}">가격 오류</div>
         </div>
         <div>
             <label for="quantity" th:text="#{label.product.quantity}">수량</label>
-            <input type="text" class="form-control" th:field="*{quantity}"
+            <input id="quantity" type="text" class="form-control" th:field="*{quantity}"
                    th:class="${errors?.containsKey('quantity')} ? 'form-control field-error' : 'form-control'">
             <div class="field-error" th:if="${errors?.containsKey('quantity')}"
                  th:text="${errors['quantity']}">수량 오류</div>

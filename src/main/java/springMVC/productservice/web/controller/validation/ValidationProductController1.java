@@ -60,7 +60,7 @@ public class ValidationProductController1 {
     @PostMapping("/add")
     public String addProduct(@ModelAttribute Product product, RedirectAttributes redirectAttributes, Model model) {
         //검증 오류 결과 보관
-        HashMap<String, String> errors = new HashMap<>();
+        final HashMap<String, String> errors = new HashMap<>();
 
         //검증 로직 - 단일 필드
         if (!StringUtils.hasText(product.getName())) {
@@ -88,7 +88,6 @@ public class ValidationProductController1 {
             model.addAttribute("errors", errors);
             return "validation/v1/addForm";
         }
-
 
         Product savedProduct = productRepository.save(product);
         redirectAttributes.addAttribute("id", savedProduct.getId());

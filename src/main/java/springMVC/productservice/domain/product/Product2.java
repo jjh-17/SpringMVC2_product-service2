@@ -10,7 +10,8 @@ import org.hibernate.validator.constraints.Range;
 public class Product2 {
 
     //Bean Validation
-    @NotNull(groups = UpdateCheck.class) //NotNull은 상품 수정 시에만 적용
+    //NotNull은 상품 수정 시에만 적용
+    @NotNull(groups = UpdateCheck.class)
     private Long id;
 
     @NotBlank(message = "공백X", groups = {SaveCheck.class, UpdateCheck.class})
@@ -24,9 +25,7 @@ public class Product2 {
     @Max(value = 9999, groups = SaveCheck.class) //상품 추가 시에는 최대값 적용
     private Integer quantity;
 
-    public Product2() {
-
-    }
+    public Product2() { }
 
     public Product2(String name, Integer price, Integer quantity) {
         this.name = name;
