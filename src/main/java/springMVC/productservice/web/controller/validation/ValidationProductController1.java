@@ -73,7 +73,7 @@ public class ValidationProductController1 {
             errors.put("quantity", "수량은 최대 9,999까지 허용됩니다.");
         }
 
-        //검증 로직 - 복합 필드
+//      검증 로직 - 복합 필드
         if(product.getPrice() != null && product.getQuantity() != null){
             int totalPrice = product.getPrice() * product.getQuantity();
 
@@ -82,7 +82,7 @@ public class ValidationProductController1 {
             }
         }
 
-        //검증 실패 시 다시 입력 폼으로
+//      검증 실패 시 다시 입력 폼으로
         if (!errors.isEmpty()) {
             log.info("errors = {}", errors);
             model.addAttribute("errors", errors);
