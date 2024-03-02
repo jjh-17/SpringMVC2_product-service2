@@ -29,8 +29,6 @@ public class MessageCodesResolverTest {
 
         //then
         System.out.println("messageCodes = " + Arrays.toString(messageCodes));
-
-//        new ObjectError("product", messageCodes, null);
     }
 
     /*

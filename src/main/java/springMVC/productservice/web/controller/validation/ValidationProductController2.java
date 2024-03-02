@@ -70,13 +70,15 @@ public class ValidationProductController2 {
         return "validation/v2/addForm";
     }
 
-    //BindingResult : @ModelAttribute Product product 바로 다음에 와야 함
-    //                      ==> product의 바인딩 결과를 담기 위해서
+    /**
+     * BindingResult : @ModelAttribute Product product 바로 다음에 와야 함
+     *      ==> product의 바인딩 결과를 담기 위해서
+     */
 //    @PostMapping("/add")
     public String addProductV1(@ModelAttribute Product product, BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
-        //검증 로직 - 단일 필드
+//      검증 로직 - 단일 필드
         if (!StringUtils.hasText(product.getName())) {
             bindingResult.addError(new FieldError(
                     "product", "name", "상품 이름은 필수입니다."));
@@ -90,7 +92,7 @@ public class ValidationProductController2 {
                     "product", "quantity", "수량은 최대 9,999까지 허용됩니다."));
         }
 
-        //검증 로직 - 복합 필드
+//      검증 로직 - 복합 필드
         if(product.getPrice() != null && product.getQuantity() != null){
             int totalPrice = product.getPrice() * product.getQuantity();
 
@@ -100,12 +102,11 @@ public class ValidationProductController2 {
             }
         }
 
-        //검증 실패 시 다시 입력 폼으로
+//      검증 실패 시 다시 입력 폼으로
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
             return "validation/v2/addForm";
         }
-
 
         Product savedProduct = productRepository.save(product);
         redirectAttributes.addAttribute("id", savedProduct.getId());
@@ -113,15 +114,15 @@ public class ValidationProductController2 {
         return "redirect:/validation/v2/products/{id}";
     }
 
-    /*
-    [FieldError 생성자]
-    -objectName: 오류 발생 객체 이름
-    -field: 오류 필드
-    -rejectedValue: 사용자가 입력한 값(거절된 값)
-    -bindingFailure: 타입 오류와 같은 바인딩 실패(true), 검증 실패(false)
-    -codes: 메시지 코드
-    -arguments: 메시지에서 사용하는 인자
-    -defaultMessage: default 오류 메시지
+    /**
+     * [FieldError 생성자]
+     * - objectName: 오류 발생 객체 이름
+     * - field: 오류 필드
+     * - rejectedValue: 사용자가 입력한 값(거절된 값)
+     * - bindingFailure: 타입 오류와 같은 바인딩 실패(true), 검증 실패(false)
+     * - codes: 메시지 코드
+     * - arguments: 메시지에서 사용하는 인자
+     * - defaultMessage: default 오류 메시지
      */
 //    @PostMapping("/add")
     public String addProductV2(@ModelAttribute Product product, BindingResult bindingResult,
@@ -166,7 +167,7 @@ public class ValidationProductController2 {
         return "redirect:/validation/v2/products/{id}";
     }
 
-    //메시지 설정 추가
+//  메시지 설정 추가
 //    @PostMapping("/add")
     public String addProductV3(@ModelAttribute Product product, BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
@@ -211,24 +212,19 @@ public class ValidationProductController2 {
         return "redirect:/validation/v2/products/{id}";
     }
 
-    /*
-    rejectValue(), reject()로 FieldError, ObjectError 대체
-
-    [rejectValue()]
-    -field: 오류 필드명
-    -errorCode: 오류 코드 ==>
-    -errorArgs: 오류 메시지의 {} 치환을 위한 값
-    -defaultMessage: 오류 메시지를 찾을 수 없을 때 기본 메시지
+    /**
+     * rejectValue(), reject()로 FieldError, ObjectError 대체
+     * - field: 오류 필드명
+     * - errorCode: 오류 코드
+     * - errorArgs: 오류 메시지의 {} 치환을 위한 값
+     * - defaultMessage: 오류 메시지를 찾을 수 없을 때 기본 메시지
+     *
      */
 //    @PostMapping("/add")
     public String addProductV4(@ModelAttribute Product product, BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
-        //검증 로직 - 단일 필드
-//        if (!StringUtils.hasText(product.getName())) {
-//            bindingResult.rejectValue("name", "required");
-//        }
-        //Empty거나 공백일 때 대체 가능
+//      Empty거나 공백일 때 대체 가능
         ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "name", "required");
 
         if (product.getPrice() == null || product.getPrice() < 1000 || product.getPrice() > 1000000) {
@@ -294,7 +290,6 @@ public class ValidationProductController2 {
             log.info("errors = {}", bindingResult);
             return "validation/v2/addForm";
         }
-
 
         Product savedProduct = productRepository.save(product);
         redirectAttributes.addAttribute("id", savedProduct.getId());
